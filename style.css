@@ -11,6 +11,7 @@ body {
 	background-color: rgb(210, 210, 210);
 }
 
+
 div#popup-wrapper-bkgrd {
 	background: rgba(0,0,0, 0.5);
 	display: none;
@@ -123,8 +124,15 @@ span {
 button.btn {
 	background-color: rgb(212,90,87);
 	border-radius: 5px;
-	height: 24px;
+	/*height: 24px;*/
 	font-size: 20px;
+	padding: 15px;
+	color: #ffffff;
+	border: none;
+	margin: 170px auto;
+	text-align: center;
+	text-transform: uppercase;
+	display: block;
 }
 
 button.popup-btn {
