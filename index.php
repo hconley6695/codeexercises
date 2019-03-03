@@ -91,11 +91,57 @@
 
 	</div>
 
+	
+<!-- 		<script type="text/javascript">
+			jQuery(document).ready(function() {
+
+				var source = jQuery('#meet-dave-lightbox .video-contents').children('iframe').attr('src');
+
+				jQuery('#play-video').on('click', function(e) {
+					e.preventDefault();
+					
+					jQuery('section.lightbox-wrapper').fadeIn('slow', function() {
+						
+						jQuery('section.lightbox-wrapper').css('display', 'block');
+						// jQuery('#meet-dave-lightbox .video-contents').children('iframe').attr('src', source);	
+						jQuery('#meet-dave-lightbox .video-contents').children('iframe').attr('src', source + '?autoplay=1');						
+						jQuery('body').addClass('pointer');
+
+					});
+				});
+
+				jQuery('div#meet-dave-lightbox div#exit').on('click', function(e) {
+						jQuery('section.lightbox-wrapper').fadeOut('slow', function() {
+							
+							jQuery('#meet-dave-lightbox .video-contents').children('iframe').attr('src', source + '?autoplay=0');
+							jQuery('section.lightbox-wrapper').css('display', 'none');
+							jQuery('body').removeClass('pointer');
+
+						});
+				});
+
+				jQuery('body').on('click', function(e) {
+					if (jQuery(e.target).has('.video-container').length) {
+
+						jQuery('section.lightbox-wrapper').fadeOut('slow', function() {
+							
+							jQuery('#meet-dave-lightbox .video-contents').children('iframe').attr('src', source + '?autoplay=0');
+							jQuery('section.lightbox-wrapper').css('display', 'none');
+							jQuery('body').removeClass('pointer');
+
+						});
+					}
+				});
+
+
+			});
+
+		</script> -->
+
 <script type="text/javascript">
 	
 	jQuery(document).ready(function() {
 
-		// jQuery("div.popup-wrapper").css("display", "none");
 
 		jQuery("#birthday").datepicker({
 			changeMonth: true,
@@ -103,15 +149,27 @@
 		    yearRange: "1920:2019"
 		});
 
-		jQuery("div.body-wrapper .btn").on("click", function() {
-			jQuery("#popup-wrapper-bkgrd").css("display", "block");
-			// jQuery("#popup-wrapper-bkgrd").fadeIn("slow");
+		jQuery("div.body-wrapper .btn").on("click", function(e) {
+			e.preventDefault();
+
+			jQuery("#popup-wrapper-bkgrd").fadeIn("slow", function() {
+
+				jQuery("#popup-wrapper-bkgrd").css("display", "block");
+				jQuery("body").addClass("pointer");
+
+			});
 		});
 
 		jQuery("#exit").on("click", function() {
-			jQuery("#popup-wrapper-bkgrd").css("display", "none");
-			// jQuery("#popup-wrapper-bkgrd").fadeOut("slow");
+
+			jQuery("#popup-wrapper-bkgrd").fadeOut("slow", function() {
+				jQuery("#popup-wrapper-bkgrd").css("display", "none");
+				jQuery("body").removeClass("pointer");
+			});
+			
 		});
+
+
 
 	});
 </script>
