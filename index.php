@@ -20,15 +20,15 @@
 				<form name="sample-form" class="sample-form" action="form-result.php" method="post"> 
 					<div>
 						<span class="error">This field is required.</span>
-						<input type="text" name="name" placeholder="Full Name">
+						<input type="text" name="name" placeholder="Full Name" id="name">
 					</div>
 					<div>
 						<span class="error">This field is required.</span>
-						<input type="email" name="email" placeholder="Email">
+						<input type="email" name="email" placeholder="Email" id="name">
 					</div>
 					<div>
 						<span class="error">This field is required.</span>
-						<input type="tel" name="phone" placeholder="Phone">
+						<input type="tel" name="phone" placeholder="Phone" id="phone">
 					</div>
 					<div class="select-group">
 						<span class="error">This field is required.</span>
@@ -66,19 +66,19 @@
 					<div>
 						<p>What music genres do you like?  Check all that apply.</p>
 						<span class="error">Please check at least one type of music.</span>
-						<input type="checkbox" name="classical" id="classical">
+						<input type="checkbox" name="music" id="classical" value="classical">
 						<label for="classical">Classical</label>
 
-						<input type="checkbox" name="classicrock" id="classicrock">
+						<input type="checkbox" name="music" id="classicrock" value="classic rock">
 						<label for="classicrock">Classic Rock</label>
 
-						<input type="checkbox" name="alternative" id="alternative">
+						<input type="checkbox" name="music" id="alternative" value="alternative">
 						<label for="alternative">Alternative Rock</label>
 
-						<input type="checkbox" name="country" id="country">
+						<input type="checkbox" name="music" id="country" value="country">
 						<label for="country">Country</label>
 
-						<input type="checkbox" name="hiphop" id="hiphop">
+						<input type="checkbox" name="music" id="hiphop" value="hip hop">
 						<label for="hiphop">Hip Hop</label>
 
 					</div>
@@ -90,53 +90,6 @@
 		</div>
 
 	</div>
-
-	
-<!-- 		<script type="text/javascript">
-			jQuery(document).ready(function() {
-
-				var source = jQuery('#meet-dave-lightbox .video-contents').children('iframe').attr('src');
-
-				jQuery('#play-video').on('click', function(e) {
-					e.preventDefault();
-					
-					jQuery('section.lightbox-wrapper').fadeIn('slow', function() {
-						
-						jQuery('section.lightbox-wrapper').css('display', 'block');
-						// jQuery('#meet-dave-lightbox .video-contents').children('iframe').attr('src', source);	
-						jQuery('#meet-dave-lightbox .video-contents').children('iframe').attr('src', source + '?autoplay=1');						
-						jQuery('body').addClass('pointer');
-
-					});
-				});
-
-				jQuery('div#meet-dave-lightbox div#exit').on('click', function(e) {
-						jQuery('section.lightbox-wrapper').fadeOut('slow', function() {
-							
-							jQuery('#meet-dave-lightbox .video-contents').children('iframe').attr('src', source + '?autoplay=0');
-							jQuery('section.lightbox-wrapper').css('display', 'none');
-							jQuery('body').removeClass('pointer');
-
-						});
-				});
-
-				jQuery('body').on('click', function(e) {
-					if (jQuery(e.target).has('.video-container').length) {
-
-						jQuery('section.lightbox-wrapper').fadeOut('slow', function() {
-							
-							jQuery('#meet-dave-lightbox .video-contents').children('iframe').attr('src', source + '?autoplay=0');
-							jQuery('section.lightbox-wrapper').css('display', 'none');
-							jQuery('body').removeClass('pointer');
-
-						});
-					}
-				});
-
-
-			});
-
-		</script> -->
 
 <script type="text/javascript">
 	
@@ -169,7 +122,104 @@
 			
 		});
 
+        function isValidEmail(emailaddress){
+            var pattern = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()\.,;\s@\"]+\.{0,1})+[^<>()\.,;:\s@\"]{2,})$/;
+            // console.log("inside valid");
+            return pattern.test(emailaddress);
+        };
 
+        function isValidPhone(phoneNum) {
+            var pattern1 = /^\d{10}$/;
+            var pattern2 = /^(\([0-9]{3}\)\s*|[0-9]{3}\-)[0-9]{3}-[0-9]{4}$/;
+            return (pattern1.test(phoneNum) || pattern2.test(phoneNum));
+        }
+
+        jQuery("form.sample-form button.popup-btn").on("click", function(e) {
+        	e.preventDefault();
+
+        	var name = jQuery("form.sample-form #name").val();
+        	var email = jQuery("form.sample-form #email").val();
+        	var phone = jQuery("form.sample-form #phone").val();
+        	var animal = jQuery("select[name=animal]").find(":selected").val();
+        	var color = jQuery("input[type=radio]:checked").val();
+
+        	//checkbox
+        	//date
+        	var passedValidation = true;
+
+
+        	if(jQuery("form.sample-form #name").length >= 1) {
+                if(name == '') {
+                  passedValidation = false;
+                  jQuery("form.sample-form #name").siblings("span.error").css("display", "inline-block");
+                } else {
+                  jQuery("form.sample-form #name").siblings("span.error").css("display", "none");
+                }
+            }
+
+            if(jQuery("form.sample-form #email").length >= 1) {
+
+                if(email == '') {
+                  	passedValidation = false;
+                   	jQuery("form.sample-form #email").siblings("span.error").css("display", "inline-block");
+                }
+                if (!isValidEmail(email)) {
+                  	passedValidation = false;
+                   	jQuery("form.sample-form #email").siblings("span.error").css("display", "inline-block");
+                } else {
+                  	jQuery("form.sample-form #email").siblings("span.error").css("display", "none");
+                }
+
+            }
+
+
+            if(jQuery(".secondary-opt-in-form form #inf_field_Phone1").length >= 1) {
+                if(phone == '') {
+                  passedValidation = false;
+                  jQuery(".secondary-opt-in-form form #inf_field_Phone1").siblings("span.error-div").css("display", "inline-block");
+                }
+                if(!isValidPhone(phone)){
+                  passedValidation = false;
+                  jQuery(".secondary-opt-in-form form #inf_field_Phone1").siblings("span.error-div").css("display", "inline-block");
+                } else {
+                  jQuery(".secondary-opt-in-form form #inf_field_Phone1").siblings("span.error-div").css("display", "none");
+                }
+            }
+
+            
+            var isChecked = jQuery("input[type=radio]").is(":checked");
+
+            if(!isChecked) {
+            	passedValidation = false;
+                jQuery("form.sample-form input[type=radio]").siblings("span.error").css("display", "block");
+            } else {
+                jQuery("form.sample-form input[type=radio]").siblings("span.error").css("display", "none");
+            }
+
+
+            var favorites = [];
+
+            jQuery.each(jQuery("input[name='music']:checked"), function(){            
+                favorites.push(jQuery(this).val());
+            });
+
+            if (favorites.length === 0) {
+            	passedValidation = false;
+                jQuery("form.sample-form input[type=checkbox]").siblings("span.error").css("display", "block");
+            } else {
+                jQuery("form.sample-form input[type=checkbox]").siblings("span.error").css("display", "none");
+            }
+
+
+
+            if(passedValidation == true) {
+            	jQuery("form.sample-form").submit()
+            } else {
+            	e.preventDefault();
+            	// jQuery("body").scrollTo("#popup-wrapper-bkgrd");
+            }
+
+        });
 
 	});
 </script>
