@@ -60,7 +60,7 @@
 					<div>
 						<p>When is your birthday?</p>
 						<span class="error">This field is required.</span>
-						<input type="date" name="birthday" id="birthday">
+						<input type="text" name="birthday" id="birthday" placeholder="date of birth">
 					</div>
 
 					<div>
@@ -99,7 +99,8 @@
 		jQuery("#birthday").datepicker({
 			changeMonth: true,
 		    changeYear: true,
-		    yearRange: "1920:2019"
+		    yearRange: "1920:2019",
+		    dateFormat: "MM dd, yy",
 		});
 
 		jQuery("div.body-wrapper .btn").on("click", function(e) {
@@ -122,6 +123,17 @@
 			
 		});
 
+
+		jQuery('body').on('click', function(e) {
+			if(jQuery(e.target).has('.popup-wrapper').length) {
+				jQuery("#popup-wrapper-bkgrd").fadeOut("slow", function() {
+					jQuery("#popup-wrapper-bkgrd").css("display", "none");
+					jQuery("body").removeClass("pointer");
+				});
+			}
+		});
+
+
         function isValidEmail(emailaddress){
             var pattern = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()\.,;\s@\"]+\.{0,1})+[^<>()\.,;:\s@\"]{2,})$/;
             // console.log("inside valid");
@@ -142,11 +154,29 @@
         	var phone = jQuery("form.sample-form #phone").val();
         	var animal = jQuery("select[name=animal]").find(":selected").val();
         	var color = jQuery("input[type=radio]:checked").val();
-
+        	var bday = jQuery("input#birthday").val();
+        	console.log(animal);
+        	console.log(phone);
         	//checkbox
         	//date
         	var passedValidation = true;
 
+	        
+	        if(jQuery("form.sample-form select[name=animal]").length >= 1) {
+	        	if (animal == '') {
+	        		passedValidation = false;
+	                  jQuery("form.sample-form select[name=animal]").siblings("span.error").css("display", "block");
+	        	}
+
+	        	if (animal == "animal") {
+	        		passedValidation = false;
+	                jQuery("form.sample-form select[name=animal]").siblings("span.error").css("display", "block");
+	        	} else {
+		            jQuery("form.sample-form select[name=animal]").siblings("span.error").css("display", "none");
+
+	        	}
+
+			}
 
         	if(jQuery("form.sample-form #name").length >= 1) {
                 if(name == '') {
@@ -173,20 +203,20 @@
             }
 
 
-            if(jQuery(".secondary-opt-in-form form #inf_field_Phone1").length >= 1) {
+            if(jQuery("form.sample-form #phone").length >= 1) {
                 if(phone == '') {
                   passedValidation = false;
-                  jQuery(".secondary-opt-in-form form #inf_field_Phone1").siblings("span.error-div").css("display", "inline-block");
+                  jQuery("form.sample-form #phone").siblings("span.error").css("display", "inline-block");
                 }
                 if(!isValidPhone(phone)){
                   passedValidation = false;
-                  jQuery(".secondary-opt-in-form form #inf_field_Phone1").siblings("span.error-div").css("display", "inline-block");
+                  jQuery("form.sample-form #phone").siblings("span.error").css("display", "inline-block");
                 } else {
-                  jQuery(".secondary-opt-in-form form #inf_field_Phone1").siblings("span.error-div").css("display", "none");
+                  jQuery("form.sample-form #phone").siblings("span.error").css("display", "none");
                 }
             }
 
-            
+
             var isChecked = jQuery("input[type=radio]").is(":checked");
 
             if(!isChecked) {
@@ -211,6 +241,14 @@
             }
 
 
+			if(jQuery("form.sample-form #birthay").length >= 0) {
+	            if(bday == '') {
+	            	passedValidation = false;
+	                jQuery("form.sample-form #birthday").siblings("span.error").css("display", "block");
+	            } else {
+	                jQuery("form.sample-form #birthday").siblings("span.error").css("display", "none");
+	            }
+			}
 
             if(passedValidation == true) {
             	jQuery("form.sample-form").submit()
