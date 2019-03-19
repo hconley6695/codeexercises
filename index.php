@@ -32,7 +32,7 @@
 					</div>
 					<div class="select-group">
 						<span class="error">This field is required.</span>
-						<select name="animal">
+						<select name="animal" id="original">
 							<option value="animal" default>Choose your favorite animal.</option>
 							<option value="dog">Dog</option>
 							<option value="cat">Cat</option>
@@ -94,6 +94,100 @@
 <script type="text/javascript">
 	
 	jQuery(document).ready(function() {
+
+    jQuery("select#original").css("display", "none");
+
+		var x, i, j, selElmnt, a, b, c;
+/* Look for any elements with the class "select-group": */
+// x = document.getElementsByClassName("select-group");
+x = jQuery(".select-group");
+
+for (i = 0; i < x.length; i++) {
+  // selElmnt = x[i].getElementsByTagName("select")[0];
+  selElmnt = jQuery(x[i]).find("select#original")[0];
+  // console.log(selElmnt);
+
+  /* For each element, create a new DIV that will act as the selected item: */
+  // a = document.createElement("DIV");
+  // a.setAttribute("class", "selected");
+  // a.innerHTML = selElmnt.options[selElmnt.selectedIndex].innerHTML;
+  // aDiv = document.createElement("DIV");
+  aDiv = jQuery("<div>").attr("class", "selected").html(selElmnt.options[selElmnt.selectedIndex])[0];
+  // console.log(aDiv[0]);
+  // jQuery(aDiv).attr("class", "selected");
+  // aDiv.innerHTML = selElmnt.options[selElmnt.selectedIndex].innerHTML;
+  x[i].append(aDiv);
+  // console.log(aDiv);
+
+  /* For each element, create a new DIV that will contain the option list: */
+  bDiv = jQuery("div").attr("class", "select-items select-hide")[0];
+ console.log(bDiv);
+  // jQuery(bDiv).attr("class", "select-items select-hide");
+
+
+  for (j = 1; j < selElmnt.length; j++) {
+    /* For each option in the original select element,
+    create a new DIV that will act as an option item: */
+    cDiv = document.createElement("DIV");
+    cDiv.innerHTML = selElmnt.options[j].innerHTML;
+    jQuery(cDiv).on("click", function(e) {
+        /* When an item is clicked, update the original select box,
+        and the selected item: */
+        var y, i, k, s, h;
+        s = this.parentNode.parentNode.getElementsByTagName("select")[0];
+        h = this.parentNode.previousSibling;
+        for (i = 0; i < s.length; i++) {
+          if (s.options[i].innerHTML == this.innerHTML) {
+            s.selectedIndex = i;
+            h.innerHTML = this.innerHTML;
+            y = this.parentNode.getElementsByClassName("same-as-selected");
+            for (k = 0; k < y.length; k++) {
+              y[k].removeAttribute("class");
+            }
+            this.setAttribute("class", "same-as-selected");
+            break;
+          }
+        }
+        h.click();
+    });
+    bDiv.append(cDiv);
+  }
+  x[i].append(bDiv);
+  
+  jQuery(aDiv).on("click", function(e) {
+    /* When the select box is clicked, close any other select boxes,
+    and open/close the current select box: */
+    e.stopPropagation();
+    closeAllSelect(this);
+    this.nextSibling.classList.toggle("select-hide");
+    this.classList.toggle("select-arrow-active");
+  });
+}
+
+function closeAllSelect(elmnt) {
+  /* A function that will close all select boxes in the document,
+  except the current select box: */
+  var x, y, i, arrNo = [];
+  x = document.getElementsByClassName("select-items");
+  y = document.getElementsByClassName("selected");
+  for (i = 0; i < y.length; i++) {
+    if (elmnt == y[i]) {
+      arrNo.push(i)
+    } else {
+      y[i].classList.remove("select-arrow-active");
+    }
+  }
+  for (i = 0; i < x.length; i++) {
+    if (arrNo.indexOf(i)) {
+      x[i].classList.add("select-hide");
+    }
+  }
+}
+
+/* If the user clicks anywhere outside the select box,
+then close all select boxes: */
+jQuery(document).on("click", closeAllSelect);
+
 
 
 		jQuery("#birthday").datepicker({
